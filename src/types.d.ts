@@ -1,5 +1,5 @@
 export interface Meal {
-  id: sting;
+  id: string;
   type: string;
   description: string;
   calories: number;

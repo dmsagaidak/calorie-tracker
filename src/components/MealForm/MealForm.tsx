@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ApiMeal} from "../../types";
+import {Link} from "react-router-dom";
 
 interface Props {
   onSubmit: (meal: ApiMeal) => void
@@ -41,8 +42,8 @@ const MealForm: React.FC<Props> = ({onSubmit}) => {
           <option value="dinner">Dinner</option>
         </select>
       </div>
-      <div className="form-group">
-        <label htmlFor="description"></label>
+      <div className="form-group mt-2">
+        <label htmlFor="description">Description</label>
         <input
         type="text"
         id="description"
@@ -51,7 +52,7 @@ const MealForm: React.FC<Props> = ({onSubmit}) => {
         onChange={onMealChange}
         />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label id="calories">Calories</label>
         <input
         type="number"
@@ -61,7 +62,11 @@ const MealForm: React.FC<Props> = ({onSubmit}) => {
         onChange={onMealChange}
         />
       </div>
-      <button type="submit" className="btn btn-success">Send</button>
+      <button type="submit" className="btn btn-success mt-2">Send</button>
+      <div className="mt-2">
+        <Link to={"/"} className="btn btn-danger">Back</Link>
+      </div>
+
     </form>
   );
 };
