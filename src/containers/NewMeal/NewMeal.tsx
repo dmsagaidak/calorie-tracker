@@ -20,7 +20,6 @@ const NewMeal = () => {
 
   return (
     <div>
-      <h5 className="ms-4 mt-3">Add new meal</h5>
       <MealForm
       onSubmit={createMeal}
       />

@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
-import {ApiMeal} from "../../types";
+import {ApiMeal, MealMutation} from "../../types";
 import {Link} from "react-router-dom";
 
 interface Props {
-  onSubmit: (meal: ApiMeal) => void
+  onSubmit: (meal: ApiMeal) => void;
+  existingMeal?: MealMutation;
+  isEdit?: boolean;
 }
 
-const MealForm: React.FC<Props> = ({onSubmit}) => {
-  const [meal, setMeal] = useState<ApiMeal>({
-    type: '',
-    description: '',
-    calories: 0,
-  });
+const initialState: MealMutation = {
+  type: '',
+  description: '',
+  calories: '',
+}
+
+const MealForm: React.FC<Props> = ({onSubmit, existingMeal = initialState, isEdit = false}) => {
+  const [meal, setMeal] = useState<MealMutation>(existingMeal);
 
   const onMealChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {name, value} = e.target;
@@ -21,12 +25,14 @@ const MealForm: React.FC<Props> = ({onSubmit}) => {
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
-      ...meal
+      ...meal,
+      calories: Number(meal.calories),
     });
   };
 
   return (
     <form className="p-4" onSubmit={onFormSubmit}>
+      <h4>{isEdit? 'Edit meal': 'Add new meal'}</h4>
       <div className="form-group">
         <label htmlFor="type">Select type</label>
         <select
@@ -62,7 +68,7 @@ const MealForm: React.FC<Props> = ({onSubmit}) => {
         onChange={onMealChange}
         />
       </div>
-      <button type="submit" className="btn btn-success mt-2">Send</button>
+      <button type="submit" className="btn btn-success mt-2">{isEdit ? 'Update' : 'Create'}</button>
       <div className="mt-2">
         <Link to={"/"} className="btn btn-danger">Back</Link>
       </div>

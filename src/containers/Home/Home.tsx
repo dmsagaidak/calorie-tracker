@@ -11,7 +11,7 @@ interface Props {
 
 const Home: React.FC<Props> = ({meals,loading}) => {
   const total = meals.reduce((sum, meal) => sum + Number(meal.calories), 0);
-  console.log(meals);
+
 
   return (
     <div className="ps-3 pe-3">

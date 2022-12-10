@@ -1,5 +1,6 @@
 import React from 'react';
 import {Meal} from "../../types";
+import {Link} from "react-router-dom";
 
 interface Props {
   meal: Meal;
@@ -27,6 +28,9 @@ const MealItem: React.FC<Props> = ({meal}) => {
         </div>
         <div className="col mt-3">
           <p>{meal.calories} kcal</p>
+        </div>
+        <div className="col">
+          <Link to={"/edit-meal/" + meal.id} className="btn btn-primary btn-sm">Edit</Link>
         </div>
       </div>
     </div>
