@@ -43,6 +43,7 @@ function App() {
         element={<Home
         meals={meals}
         loading={loading}
+        fetchMeals={fetchMeals}
         />}
       />
       <Route
