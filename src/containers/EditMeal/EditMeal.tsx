@@ -3,16 +3,24 @@ import {useParams} from "react-router-dom";
 import {ApiMeal} from "../../types";
 import axiosApi from "../../axiosApi";
 import MealForm from "../../components/MealForm/MealForm";
+import Spinner from "../../components/Spinner/Spinner";
 
 const EditMeal = () => {
   const {id} = useParams();
   const [meal, setMeal] = useState<ApiMeal | null>(null);
-  const [updating, setUpdating] = useState(false)
+  const [updating, setUpdating] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchOneMeal = useCallback(async () => {
-    const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
-    setMeal(mealResponse.data);
-  },[]);
+    try{
+      setLoading(true)
+      const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
+      setMeal(mealResponse.data);
+    }finally {
+      setLoading(false)
+    }
+
+  },[id]);
 
   useEffect(() => {
       void fetchOneMeal();
@@ -20,12 +28,14 @@ const EditMeal = () => {
 
   const updateMeal = async (meal: ApiMeal) => {
     try{
-      setUpdating(true)
+      setLoading(true);
+      setUpdating(true);
       await axiosApi.put('/meals/' + id + '.json', meal);
     }catch (e){
       console.log(e)
     }finally {
-      setUpdating(false)
+      setLoading(false);
+      setUpdating(false);
     }
   }
 
@@ -36,7 +46,8 @@ const EditMeal = () => {
 
   return (
     <div>
-      {existingMeal && (
+      {loading ? <Spinner/> :
+        existingMeal && (
         <MealForm
         onSubmit={updateMeal}
         existingMeal={existingMeal}

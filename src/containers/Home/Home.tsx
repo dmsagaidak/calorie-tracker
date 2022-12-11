@@ -25,18 +25,16 @@ const Home: React.FC<Props> = ({meals,loading, fetchMeals}) => {
     }finally {
       setDeleting(false)
     }
-
   }
+
   return (
     <div className="ps-3 pe-3">
       <div className="row m-3">
-        <div className="col-10">Total calories: {total}</div>
+        <div className="col-10">Total calories: <strong>{total}</strong></div>
         <div className="col">
           <Link to={"/new-meal"}className="btn btn-primary">Add new meal</Link>
         </div>
       </div>
-
-
       {loading? <Spinner/> : (
         <Meals
           meals={meals}

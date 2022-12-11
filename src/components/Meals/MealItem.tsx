@@ -26,7 +26,7 @@ const MealItem: React.FC<Props> = ({meal, onDelete, deleting=false}) => {
     <div className="card m-1">
       <div className="card-body row no-gutters">
         <div className="col col-8">
-          <p>{type}</p>
+          <p className="m-0">{type}</p>
           <p className="m-0">{meal.description}</p>
         </div>
         <div className="col mt-3">

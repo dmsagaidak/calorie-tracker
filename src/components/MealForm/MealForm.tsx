@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {ApiMeal, MealMutation} from "../../types";
 import {Link} from "react-router-dom";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
@@ -28,8 +28,6 @@ const MealForm: React.FC<Props> = ({
     const {name, value} = e.target;
     setMeal(prev =>({...prev, [name]: value}))
   };
-
-  useEffect(() => console.log(existingMeal))
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
