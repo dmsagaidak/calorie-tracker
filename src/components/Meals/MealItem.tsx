@@ -1,13 +1,15 @@
 import React from 'react';
 import {Meal} from "../../types";
 import {Link} from "react-router-dom";
+import ButtonSpinner from "../Spinner/ButtonSpinner";
 
 interface Props {
   meal: Meal;
   onDelete: React.MouseEventHandler;
+  deleting: boolean;
 }
 
-const MealItem: React.FC<Props> = ({meal, onDelete}) => {
+const MealItem: React.FC<Props> = ({meal, onDelete, deleting=false}) => {
   let type = '';
 
   if(meal.type === 'breakfast') {
@@ -32,7 +34,8 @@ const MealItem: React.FC<Props> = ({meal, onDelete}) => {
         </div>
         <div className="col">
           <Link to={"/edit-meal/" + meal.id} className="btn btn-primary btn-sm">Edit</Link>
-          <button onClick={onDelete} className="btn btn-danger btn-sm ms-1">Remove</button>
+          <button onClick={onDelete} disabled={deleting} className="btn btn-danger btn-sm ms-1">
+            {deleting && <ButtonSpinner/>}Remove</button>
         </div>
       </div>
     </div>

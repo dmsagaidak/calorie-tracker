@@ -49,6 +49,7 @@ const MealForm: React.FC<Props> = ({
           name="type"
           className="form-select mt-1"
           onChange={onMealChange}
+          required
         >
           <option disabled value=''>Select a type</option>
           <option value="breakfast">Breakfast</option>
@@ -65,6 +66,7 @@ const MealForm: React.FC<Props> = ({
         name="description"
         className="form-control"
         onChange={onMealChange}
+        required
         />
       </div>
       <div className="form-group mt-2">
@@ -75,6 +77,7 @@ const MealForm: React.FC<Props> = ({
         name="calories"
         className="form-control"
         onChange={onMealChange}
+        required
         />
       </div>
       <button type="submit" disabled={isLoading} className="btn btn-success mt-2">

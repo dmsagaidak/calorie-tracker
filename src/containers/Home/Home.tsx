@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Meal} from "../../types";
 import Meals from "../../components/Meals/Meals/Meals";
 import Spinner from "../../components/Spinner/Spinner";
@@ -13,12 +13,19 @@ interface Props {
 
 const Home: React.FC<Props> = ({meals,loading, fetchMeals}) => {
   const total = meals.reduce((sum, meal) => sum + Number(meal.calories), 0);
+  const [deleting, setDeleting] = useState(false)
 
   const deleteMeal = async (id: string) => {
-    if(window.confirm('Do you wish to delete this item?')) {
-      await axiosApi.delete('/meals/' + id + '.json');
-      await fetchMeals();
+    try{
+      setDeleting(true)
+      if(window.confirm('Do you wish to delete this item?')) {
+        await axiosApi.delete('/meals/' + id + '.json');
+        await fetchMeals();
+      }
+    }finally {
+      setDeleting(false)
     }
+
   }
   return (
     <div className="ps-3 pe-3">
@@ -34,6 +41,7 @@ const Home: React.FC<Props> = ({meals,loading, fetchMeals}) => {
         <Meals
           meals={meals}
           deleteMeal={deleteMeal}
+          deleting={deleting}
         />
       )}
     </div>
