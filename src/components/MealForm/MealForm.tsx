@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ApiMeal, MealMutation} from "../../types";
 import {Link} from "react-router-dom";
+import ButtonSpinner from "../Spinner/ButtonSpinner";
 
 interface Props {
   onSubmit: (meal: ApiMeal) => void;
   existingMeal?: MealMutation;
   isEdit?: boolean;
+  isLoading?: boolean;
 }
 
 const initialState: MealMutation = {
@@ -14,13 +16,20 @@ const initialState: MealMutation = {
   calories: '',
 }
 
-const MealForm: React.FC<Props> = ({onSubmit, existingMeal = initialState, isEdit = false}) => {
+const MealForm: React.FC<Props> = ({
+    onSubmit,
+    existingMeal = initialState,
+    isEdit = false,
+    isLoading = false
+}) => {
   const [meal, setMeal] = useState<MealMutation>(existingMeal);
 
   const onMealChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {name, value} = e.target;
     setMeal(prev =>({...prev, [name]: value}))
   };
+
+  useEffect(() => console.log(existingMeal))
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +77,10 @@ const MealForm: React.FC<Props> = ({onSubmit, existingMeal = initialState, isEdi
         onChange={onMealChange}
         />
       </div>
-      <button type="submit" className="btn btn-success mt-2">{isEdit ? 'Update' : 'Create'}</button>
+      <button type="submit" disabled={isLoading} className="btn btn-success mt-2">
+        {isLoading && <ButtonSpinner/>}
+        {isEdit ? 'Update' : 'Create'}
+      </button>
       <div className="mt-2">
         <Link to={"/"} className="btn btn-danger">Back</Link>
       </div>

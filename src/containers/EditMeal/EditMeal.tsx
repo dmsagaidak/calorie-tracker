@@ -7,6 +7,7 @@ import MealForm from "../../components/MealForm/MealForm";
 const EditMeal = () => {
   const {id} = useParams();
   const [meal, setMeal] = useState<ApiMeal | null>(null);
+  const [updating, setUpdating] = useState(false)
 
   const fetchOneMeal = useCallback(async () => {
     const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
@@ -19,11 +20,12 @@ const EditMeal = () => {
 
   const updateMeal = async (meal: ApiMeal) => {
     try{
+      setUpdating(true)
       await axiosApi.put('/meals/' + id + '.json', meal);
     }catch (e){
       console.log(e)
     }finally {
-
+      setUpdating(false)
     }
   }
 
@@ -39,6 +41,7 @@ const EditMeal = () => {
         onSubmit={updateMeal}
         existingMeal={existingMeal}
         isEdit
+        isLoading={updating}
         />
       )}
     </div>
