@@ -10,19 +10,21 @@ interface Props {
   isLoading?: boolean;
 }
 
-const initialState: MealMutation = {
-  type: '',
-  description: '',
-  calories: '',
-}
+
 
 const MealForm: React.FC<Props> = ({
     onSubmit,
-    existingMeal = initialState,
+    existingMeal,
     isEdit = false,
     isLoading = false
 }) => {
-  const [meal, setMeal] = useState<MealMutation>(existingMeal);
+  const initialState: MealMutation = existingMeal? existingMeal : {
+    type: '',
+    description: '',
+    calories: '',
+  }
+
+  const [meal, setMeal] = useState<MealMutation>(initialState);
 
   const onMealChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {name, value} = e.target;
@@ -47,6 +49,7 @@ const MealForm: React.FC<Props> = ({
           name="type"
           className="form-select mt-1"
           onChange={onMealChange}
+          value={meal.type}
           required
         >
           <option disabled value=''>Select a type</option>
@@ -63,6 +66,7 @@ const MealForm: React.FC<Props> = ({
         id="description"
         name="description"
         className="form-control"
+        value={meal.description}
         onChange={onMealChange}
         required
         />
@@ -74,6 +78,7 @@ const MealForm: React.FC<Props> = ({
         id="calories"
         name="calories"
         className="form-control"
+        value={meal.calories}
         onChange={onMealChange}
         required
         />

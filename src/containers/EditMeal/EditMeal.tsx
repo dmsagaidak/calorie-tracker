@@ -1,23 +1,27 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {ApiMeal} from "../../types";
+import {ApiMeal, MealMutation} from "../../types";
 import axiosApi from "../../axiosApi";
 import MealForm from "../../components/MealForm/MealForm";
 import Spinner from "../../components/Spinner/Spinner";
 
 const EditMeal = () => {
   const {id} = useParams();
-  const [meal, setMeal] = useState<ApiMeal | null>(null);
+  const [meal, setMeal] = useState<MealMutation | null>(null);
   const [updating, setUpdating] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const fetchOneMeal = useCallback(async () => {
     try{
-      setLoading(true)
+      setLoading(true);
       const mealResponse = await axiosApi.get<ApiMeal>('/meals/' + id + '.json');
-      setMeal(mealResponse.data);
+      const existingMeal = mealResponse.data && {
+        ...mealResponse.data,
+        calories: mealResponse.data.calories.toString(),
+      }
+      setMeal(existingMeal);
     }finally {
-      setLoading(false)
+      setLoading(false);
     }
 
   },[id]);
@@ -39,18 +43,15 @@ const EditMeal = () => {
     }
   }
 
-  const existingMeal = meal && {
-    ...meal,
-    calories: meal.calories.toString(),
-  }
+
 
   return (
     <div>
       {loading ? <Spinner/> :
-        existingMeal && (
+        meal && (
         <MealForm
         onSubmit={updateMeal}
-        existingMeal={existingMeal}
+        existingMeal={meal}
         isEdit
         isLoading={updating}
         />
