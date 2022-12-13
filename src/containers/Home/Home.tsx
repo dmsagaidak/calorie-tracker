@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Meal} from "../../types";
 import Meals from "../../components/Meals/Meals/Meals";
 import Spinner from "../../components/Spinner/Spinner";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axiosApi from "../../axiosApi";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const Home: React.FC<Props> = ({meals,loading, fetchMeals}) => {
   const total = meals.reduce((sum, meal) => sum + Number(meal.calories), 0);
-  const [deleting, setDeleting] = useState(false)
+  const [deleting, setDeleting] = useState(false);
 
   const deleteMeal = async (id: string) => {
     try{

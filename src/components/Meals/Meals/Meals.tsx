@@ -12,7 +12,7 @@ const Meals: React.FC<Props> = ({meals, deleteMeal, deleting=false}) => {
 
   let mealsList = (
     <div className="alert alert-primary">
-      You have no meals added. Push Add new meal button
+      You have no meals added. Please, push Add new meal button to add information
     </div>
   )
 

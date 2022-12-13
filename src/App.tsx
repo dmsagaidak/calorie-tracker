@@ -10,24 +10,31 @@ import EditMeal from "./containers/EditMeal/EditMeal";
 function App() {
   const location = useLocation();
   const [meals, setMeals] = useState<Meal[]>([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const fetchMeals = useCallback(async () => {
     try{
       setLoading(true)
       const mealsResponse = await axiosApi.get<MealsList>('/meals.json');
-      const meals = Object.keys(mealsResponse.data).map(key => {
-        const meal = mealsResponse.data[key];
+      const meals = mealsResponse.data;
+
+      if(!meals) {
+        setMeals([])
+      }
+
+      const newMeals = Object.keys(meals).map(key => {
+        const meal = meals[key];
         meal.id = key;
         return meal;
       });
-        setMeals(meals);
+      setMeals(newMeals);
     }catch (e) {
       console.log(e);
     }finally {
       setLoading(false);
     }
   }, []);
+
 
   useEffect(() => {
     if (location.pathname === '/') {
