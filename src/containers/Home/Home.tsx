@@ -17,13 +17,13 @@ const Home: React.FC<Props> = ({meals,loading, fetchMeals}) => {
 
   const deleteMeal = async (id: string) => {
     try{
-      setDeleting(true)
+      setDeleting(true);
       if(window.confirm('Do you wish to delete this item?')) {
         await axiosApi.delete('/meals/' + id + '.json');
         await fetchMeals();
       }
     }finally {
-      setDeleting(false)
+      setDeleting(false);
     }
   }
 

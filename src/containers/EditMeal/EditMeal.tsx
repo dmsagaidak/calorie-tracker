@@ -35,6 +35,7 @@ const EditMeal = () => {
       setLoading(true);
       setUpdating(true);
       await axiosApi.put('/meals/' + id + '.json', meal);
+      await fetchOneMeal();
     }catch (e){
       console.log(e)
     }finally {

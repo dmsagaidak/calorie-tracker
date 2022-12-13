@@ -17,7 +17,8 @@ const Meals: React.FC<Props> = ({meals, deleteMeal, deleting=false}) => {
   )
 
   if(meals.length > 0) {
-    mealsList = (<>
+    mealsList = (
+      <>
       {meals.map((meal) => (
         <MealItem
           key={meal.id}
@@ -26,7 +27,8 @@ const Meals: React.FC<Props> = ({meals, deleteMeal, deleting=false}) => {
           deleting={deleting}
         />
       ))}
-    </>)
+    </>
+    )
   }
 
   return (
