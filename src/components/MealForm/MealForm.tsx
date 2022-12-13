@@ -33,6 +33,7 @@ const MealForm: React.FC<Props> = ({
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    isLoading = true;
     onSubmit({
       ...meal,
       calories: Number(meal.calories),

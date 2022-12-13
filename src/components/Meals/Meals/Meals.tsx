@@ -4,11 +4,10 @@ import MealItem from "../MealItem";
 
 interface Props {
   meals: Meal[];
-  deleteMeal: (id: string) => void;
-  deleting?: boolean;
+  fetchMeals: () => void;
 }
 
-const Meals: React.FC<Props> = ({meals, deleteMeal, deleting=false}) => {
+const Meals: React.FC<Props> = ({meals, fetchMeals}) => {
 
   let mealsList = (
     <div className="alert alert-primary">
@@ -23,8 +22,7 @@ const Meals: React.FC<Props> = ({meals, deleteMeal, deleting=false}) => {
         <MealItem
           key={meal.id}
           meal={meal}
-          onDelete={() => deleteMeal(meal.id)}
-          deleting={deleting}
+          fetchMeals={fetchMeals}
         />
       ))}
     </>

@@ -1,15 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Meal} from "../../types";
 import {Link} from "react-router-dom";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
+import axiosApi from "../../axiosApi";
 
 interface Props {
   meal: Meal;
-  onDelete: React.MouseEventHandler;
-  deleting: boolean;
+  fetchMeals: () => void;
 }
 
-const MealItem: React.FC<Props> = ({meal, onDelete, deleting=false}) => {
+const MealItem: React.FC<Props> = ({meal, fetchMeals}) => {
+  const [deleting, setDeleting] = useState(false);
+
+  const deleteMeal = async (id: string) => {
+    try{
+      setDeleting(true);
+      if(window.confirm('Do you really want to delete this item?')) {
+        await axiosApi.delete('/meals/' + id + '.json');
+        await fetchMeals();
+      }
+    }catch (e) {
+      console.log(e);
+    }finally {
+      setDeleting(false);
+    }
+  }
+
   let type = '';
 
   if(meal.type === 'breakfast') {
@@ -34,7 +50,7 @@ const MealItem: React.FC<Props> = ({meal, onDelete, deleting=false}) => {
         </div>
         <div className="col">
           <Link to={"/edit-meal/" + meal.id} className="btn btn-primary btn-sm">Edit</Link>
-          <button onClick={onDelete} disabled={deleting} className="btn btn-danger btn-sm ms-1">
+          <button onClick={() => deleteMeal(meal.id)} disabled={deleting} className="btn btn-danger btn-sm ms-1">
             {deleting && <ButtonSpinner/>}Remove</button>
         </div>
       </div>
